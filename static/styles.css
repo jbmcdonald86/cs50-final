@@ -1,0 +1,20 @@
+html, body
+{
+    /* Height of these elements */
+    height: 100%;
+
+    /* No margin around these elements */
+    margin: 0;
+
+    /* Disable scrollbars */
+    overflow: hidden;
+
+    /* No padding within these elements */
+    padding: 0;
+}
+
+.greek 
+{
+    font-family: "New Athena Unicode", Gentium, "Palatino Linotype", "Lucida Grande", Galilee, "Arial Unicode MS", sans-serif;
+
+}
