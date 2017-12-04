@@ -17,20 +17,27 @@ def translation(gkWord):
     print(gkWord)
     URL = "http://www.perseus.tufts.edu/hopper/morph?l=" + gkWord + "&la=greek"
     translation = ""
-    # if !isnumber(str(gkWord[0])):
-    print(URL)
     r = requests.get(URL)
     soup = BeautifulSoup(r.content, 'html.parser')
     definition = soup.findAll('span', attrs={'class': 'lemma_definition'})
+
+    # Check if Perseus has a translation for the word.
     if len(definition) > 0:
+        translation = definition[-1].text
 
-        print(len(definition))
-        print(definition[0].text)
-        translation = definition[0].text
+        # Insert data into the translations table, preventing the addition of duplicate words
+        translationLine = db.execute("SELECT * FROM translations WHERE original = :gkWord", gkWord=gkWord)
+        if len(translationLine) < 1:
+            new_line = db.execute("INSERT INTO translations (original, url, translation) VALUES (:original, :url, :translation)",
+                                original=gkWord, url=URL, translation=translation)
+
+            translationLine = db.execute("SELECT * FROM translations WHERE translation_id= (SELECT MAX(translation_id) FROM translations)")
+        translation_id = translationLine[0]['translation_id']
     else:
-        translation = "None"
+        translation_id = "None"
 
-    return (URL, translation)
+    # Return the ID of the new row, to link the translation to the original Greek table
+    return translation_id
 
 
 if __name__ == "__main__":
@@ -66,20 +73,25 @@ if __name__ == "__main__":
 
                             paragraph += element
 
-                    # Separate punctuation, incl. paragraph and line breaks ("|" and ">") from words
-                    paragraph = re.sub(r'(?<=[.,;:|>])(?=[^\s])', r'\n', paragraph)
+                    # Separate punctuation, incl. paragraph and line breaks ("|" and ">"), from words
+                    paragraph = re.sub('([.,:;])', r' \1 ', paragraph)
 
                     # Separate each word, incl punctuation/line breaks
                     words = paragraph.split()
-
                     # Find the starting and ending id for words of the Greek passage so it is easier to display the right words.
-                    start = db.execute("SELECT * FROM original WHERE ID= (SELECT MAX(ID) FROM original)")
-                    start = int(start[0]["ID"]) + 1
-                    end = start + (len(words - 1))
+                    start = db.execute("SELECT * FROM original WHERE greek_id= (SELECT MAX(greek_id) FROM original)")
+                    if len(start) == 0:
+                        start = 1
+                    else:
+                        start = int(start[0]["greek_id"])
+                    end = start + (len(words) - 1)
 
                     for word in words:
-                        translation(word)
-                        db.execute("INSERT INTO original (greek) VALUES (:word)", word=word)
+                        translation_id = translation(word)
+                        db.execute("INSERT INTO original (greek, translation_id, length) VALUES (:word, :translation_id, :length)",
+                                word=word, translation_id=translation_id, length=len(word))
+
+
                     # if len(milestone) > 0:
                     #     words.append(milestone[0]["n"])
                     # for p in paragraphs:
@@ -93,7 +105,7 @@ if __name__ == "__main__":
                     # paragraph = div[0].text
                     # # Denote paragraph breaks with '\n'
                     #
-                    # paragraph = re.sub('([.,:"])', r' \1 ', paragraph)
+                    # paragraph = re.sub('([.,:;|>])', r' \1 ', paragraph)
                     # pArray =
                     # print(pArray)
                     # for word in pArray:

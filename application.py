@@ -25,6 +25,11 @@ def index():
 
     return render_template("index.html")
 
+@app.route('/republic')
+def text():
+
+    return render_template("republic.html")
+
 # Iterate through all p elements in the relevant div.
 # Scrape all content within p elements.
 # Create a copy of the html file with the book and section numbers in the name.
@@ -64,3 +69,9 @@ def index():
 
 # Translations table : "CREATE TABLE 'translations' ('translation_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'original' TEXT, 'url' TEXT, 'translation' TEXT)"
 # Original table: "CREATE TABLE 'original' ('greek_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'greek' TEXT, 'translation_id' INTEGER)"
+
+# Add function to use Google Translate for Gk words that aren't in Perseus, but only if they aren't numbers/punctuation.
+
+# There are some dict entries whose second div has no def., rather than the first. Have to make a case for when the translation is "[definition unavailable]"
+
+# Need to make a case for when the translation ends in a comma, to strip that comma

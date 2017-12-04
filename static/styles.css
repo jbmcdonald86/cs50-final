@@ -13,8 +13,47 @@ html, body
     padding: 0;
 }
 
-.greek 
+.greek
 {
     font-family: "New Athena Unicode", Gentium, "Palatino Linotype", "Lucida Grande", Galilee, "Arial Unicode MS", sans-serif;
 
+}
+
+.section-link
+{
+    border: 1px solid black;
+    float: left;
+}
+
+.section-link:last-child
+{
+    border-radius: 0px;
+
+}
+
+.list-group:after {
+  clear: both;
+  display: block;
+  content: "";
+}
+
+.passage-selection
+{
+    padding-left: 8%;
+    padding-right: 8%;
+    border-bottom: 1px solid black;
+}
+
+@media (max-width: 90%) and (min-width: 0px) {
+    .list-group {
+        text-align: center;
+    }
+    .list-group>a {
+        display: inline;
+    }
+}
+
+.title
+{
+    text-align: center;
 }
