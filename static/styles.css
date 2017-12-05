@@ -6,17 +6,8 @@ html, body
     /* No margin around these elements */
     margin: 0;
 
-    /* Disable scrollbars */
-    overflow: hidden;
-
     /* No padding within these elements */
     padding: 0;
-}
-
-.greek
-{
-    font-family: "New Athena Unicode", Gentium, "Palatino Linotype", "Lucida Grande", Galilee, "Arial Unicode MS", sans-serif;
-
 }
 
 .section-link
@@ -56,4 +47,52 @@ html, body
 .title
 {
     text-align: center;
+}
+
+.wrapper
+{
+    padding:3%;
+    width: 1000px;
+    float:left;
+    overflow:auto;
+    margin: 1em 0;
+}
+
+.greek
+{
+    font-size: 20px;
+    line-height: 300%;
+}
+
+.punctuation
+{
+    white-space:nowrap;
+    margin-left:-4px;
+}
+
+ol.sentence
+{
+    display:inline;
+}
+
+ol.word {
+ padding: .5em;
+ margin-bottom: .5em;
+ background: white;
+ float:left;
+ display: inline-block;
+}
+
+ol li{
+    list-style-type: none;
+}
+.definition
+{
+    width:30px;
+}
+
+.second
+{
+    width: 100%
+    ;
 }

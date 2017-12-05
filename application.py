@@ -29,7 +29,7 @@ def index():
 def text(book, section):
 
     text = db.execute("SELECT * FROM original INNER JOIN translations ON original.translation_id=translations.translation_id WHERE section = :section", section=section)
-    print(text[0], file=sys.stderr)
+    # print(text[0], file=sys.stderr)
     for i in range(len(text)):
         text[i] = (text[i]["greek"], text[i]["original"], text[i]["url"], text[i]["translation"])
     return render_template("republic.html", words=text)
@@ -71,13 +71,15 @@ def text(book, section):
 # If there is a period followed by a word w/ no space in b/w, that is a par break.
 # If there is a "" or a " " in the array, label it newline.
 
-# Translations table : "CREATE TABLE 'translations' ('translation_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'original' TEXT, 'url' TEXT, 'translation' TEXT)"
+# Translations table : "CREATE TABLE 'translations' ('translation_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'original' TEXT, 'url' TEXT, 'translation' TEXT, 'frequency' INTEGER)"
 # Original table: "CREATE TABLE 'original' ('greek_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'greek' TEXT, 'translation_id' INTEGER, 'length' INTEGER, 'section' TEXT)"
 
 # Add function to use Google Translate for Gk words that aren't in Perseus, but only if they aren't numbers/punctuation.
 
-# There are some dict entries whose second div has no def., rather than the first. Have to make a case for when the translation is "[definition unavailable]"
+# Have to make a case for when the translation is "[definition unavailable]"
 
 # Need to make a case for when the translation ends in a comma, to strip that comma
 
 # Have an area near the navbar that says the number of the a element you're hovering over.
+
+# Make an exception for the articles, will hav to look them up, deal with them individually.

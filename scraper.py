@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import socket
 import requests
 import re
-from lxml import etree
 
 from cs50 import SQL
 
@@ -28,10 +27,12 @@ def translation(gkWord):
     # Insert data into the translations table, preventing the addition of duplicate words
     translationLine = db.execute("SELECT * FROM translations WHERE original = :gkWord", gkWord=gkWord)
     if len(translationLine) < 1:
-        new_line = db.execute("INSERT INTO translations (original, url, translation) VALUES (:original, :url, :translation)",
-                            original=gkWord, url=URL, translation=translation)
+        new_line = db.execute("INSERT INTO translations (original, url, translation, frequency) VALUES (:original, :url, :translation, :frequency)",
+                            original=gkWord, url=URL, translation=translation, frequency=1)
 
         translationLine = db.execute("SELECT * FROM translations WHERE translation_id= (SELECT MAX(translation_id) FROM translations)")
+    else:
+        db.execute("UPDATE translations SET frequency = :frequency WHERE original = :gkWord", frequency=translationLine[0]['frequency'] + 1, gkWord=gkWord)
     translation_id = translationLine[0]['translation_id']
 
     # Return the ID of the new row, to link the translation to the original Greek table
@@ -47,8 +48,9 @@ if __name__ == "__main__":
                 print()
                 r = requests.get(URL)
                 print(r.text)
-                print("hello")
-                soup = BeautifulSoup(r.content, 'xml')
+                soup = BeautifulSoup(r.content, 'html.parser')
+                # soup = etree.parse(StringIO(r.text))
+                # context = etree.iterparse(StringIO(r.text))
                 div1 = soup.findAll('div1')
                 # Check if the url is a valid one
                 if len(div1) < 1:
@@ -84,14 +86,6 @@ if __name__ == "__main__":
                 # Separate each word, incl punctuation/line breaks
                 words = paragraph.split()
 
-                # Find the starting and ending id for words of the Greek passage so it is easier to display the right words.
-                # # start = db.execute("SELECT * FROM original WHERE greek_id= (SELECT MAX(greek_id) FROM original)")
-                # if len(start) == 0:
-                #     start = 1
-                # else:
-                #     start = int(start[0]["greek_id"])
-                # end = start + (len(words) - 1)
-
                 # Insert each word into the "original" table, along with its translation_id and character length
                 for word in words:
                     translation_id = translation(word)
@@ -106,8 +100,8 @@ if __name__ == "__main__":
 
                 # Insert the link to the newly scraped passage
                 section = str(chr(j + ord('a')))
-                value = f'<a href="/{TEXT}/book1/section{str(i)}{section}" class="list-group-item list-group-item-action section-link"></a>'
-                contents.insert(-4, value)
+                value = f'<a href="/{TEXT}/book1/section{str(i)}{section}" class="list-group-item list-group-item-action section-link"></a>\n'
+                contents.insert(-25, value)
 
                 html = open("/home/ubuntu/workspace/final/templates/republic.html", "w")
                 contents = "".join(contents)

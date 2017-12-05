@@ -15,21 +15,42 @@
   </div>
   <div class="list-group">
     <p><b>Section</b></p>
+<a href="/republic/book1/section327a" class="list-group-item list-group-item-action section-link"></a>
+<a href="/republic/book1/section327b" class="list-group-item list-group-item-action section-link"></a>
+<a href="/republic/book1/section327c" class="list-group-item list-group-item-action section-link"></a>
+<a href="/republic/book1/section328a" class="list-group-item list-group-item-action section-link"></a>
 
   </div>
 </div>
 
-<div class="container">
-  {% for word in words %}
-    {% if word[0]|string() == ">" %}
-      <br>
-    {% elif word[0]|string() == "|" %}
-      <br>
-      <br>
-    {% else %}
-      <a href="{{ word[2] }}">{{ word[0] }}</a>
-    {% endif %}
-<a href="/republic/book1/section327a" class="list-group-item list-group-item-action section-link"></a><a href="/republic/book1/section327a" class="list-group-item list-group-item-action section-link"></a><a href="/republic/book1/section327a" class="list-group-item list-group-item-action section-link"></a><a href="/republic/book1/section327a" class="list-group-item list-group-item-action section-link"></a>  {% endfor%}
+<div class="container wrapper">
+  <ol class="sentence">
+    <li>
+      {% for i in range(words|length) %}
+        {% if words[i][0]|string() == "," or words[i][0]|string() == "." or words[i][0]|string() == ";" or words[i][0]|string() == ":" %}
+          <ol><li class="punctuation">{{ words[i][0] }}</li></ol>
+        {% elif words[i][0][0]|int != 0 %}
+          {{ words[i][0] }}
+        {% elif words[i][0]|string() == ">" %}
+          <br>
+        {% elif words[i][0]|string() == "|" %}
+          <br>
+          <br>
+        {% else %}
+          <ol class="word">
+            <li class="greek">
+              <a target="_blank" href="{{ words[i][2] }}" class="greek">{{ words[i][0] }}</a>
+            </li>
+            <div class="second">
+            <li class="definition">
+              {{words[i][1] }}>> {{ words[i][3] }}<span></span>
+            </li>
+            </div>
+          </ol>
+        {% endif %}
+      {% endfor %}
+    </li>
+  </ol>
 </div>
 
 {% endblock %}
