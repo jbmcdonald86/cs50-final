@@ -25,10 +25,14 @@ def index():
 
     return render_template("index.html")
 
-@app.route('/republic')
-def text():
+@app.route('/republic/book<int:book>/section<section>', methods=['GET'])
+def text(book, section):
 
-    return render_template("republic.html")
+    text = db.execute("SELECT * FROM original INNER JOIN translations ON original.translation_id=translations.translation_id WHERE section = :section", section=section)
+    print(text[0], file=sys.stderr)
+    for i in range(len(text)):
+        text[i] = (text[i]["greek"], text[i]["original"], text[i]["url"], text[i]["translation"])
+    return render_template("republic.html", words=text)
 
 # Iterate through all p elements in the relevant div.
 # Scrape all content within p elements.
@@ -68,10 +72,12 @@ def text():
 # If there is a "" or a " " in the array, label it newline.
 
 # Translations table : "CREATE TABLE 'translations' ('translation_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'original' TEXT, 'url' TEXT, 'translation' TEXT)"
-# Original table: "CREATE TABLE 'original' ('greek_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'greek' TEXT, 'translation_id' INTEGER)"
+# Original table: "CREATE TABLE 'original' ('greek_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'greek' TEXT, 'translation_id' INTEGER, 'length' INTEGER, 'section' TEXT)"
 
 # Add function to use Google Translate for Gk words that aren't in Perseus, but only if they aren't numbers/punctuation.
 
 # There are some dict entries whose second div has no def., rather than the first. Have to make a case for when the translation is "[definition unavailable]"
 
 # Need to make a case for when the translation ends in a comma, to strip that comma
+
+# Have an area near the navbar that says the number of the a element you're hovering over.

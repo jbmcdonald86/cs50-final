@@ -15,10 +15,21 @@
   </div>
   <div class="list-group">
     <p><b>Section</b></p>
-    <a href="#" class="list-group-item list-group-item-action section-link"></a>
-    <a href="#" class="list-group-item list-group-item-action section-link"></a>
-    <a href="#" class="list-group-item list-group-item-action section-link"></a>
+
   </div>
+</div>
+
+<div class="container">
+  {% for word in words %}
+    {% if word[0]|string() == ">" %}
+      <br>
+    {% elif word[0]|string() == "|" %}
+      <br>
+      <br>
+    {% else %}
+      <a href="{{ word[2] }}">{{ word[0] }}</a>
+    {% endif %}
+<a href="/republic/book1/section327a" class="list-group-item list-group-item-action section-link"></a><a href="/republic/book1/section327a" class="list-group-item list-group-item-action section-link"></a><a href="/republic/book1/section327a" class="list-group-item list-group-item-action section-link"></a><a href="/republic/book1/section327a" class="list-group-item list-group-item-action section-link"></a>  {% endfor%}
 </div>
 
 {% endblock %}
