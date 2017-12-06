@@ -6,6 +6,8 @@ import re
 
 from cs50 import SQL
 
+from mtranslate import translate
+
 db = SQL("sqlite:///words.db")
 
 TEXT = "republic"
@@ -17,6 +19,18 @@ def parse(URL):
     soup = BeautifulSoup(data.content, 'html.parser')
     return soup
 
+def googleTrans(gkWord):
+    __author__ = 'brycemcdonald86@google.com (Bryce McDonald)'
+
+    # http://www.apache.org/licenses/LICENSE-2.0
+    service = build('translate', 'v2',
+            developerKey='AIzaSyCjM8SeIutMa0VvDkn3Wxq3_gIezsKOb-g')
+    return service.translations().list(
+        source='el',
+        target='en',
+        q=[gkWord]
+    ).execute()
+
 
 def translation(gkWord):
     URL = "http://www.perseus.tufts.edu/hopper/morph?l=" + gkWord + "&la=greek"
@@ -27,27 +41,42 @@ def translation(gkWord):
 
     # Check if Perseus has a translation for the word, then scrape the original Greek and the translation.
     if len(definition) > 0:
+        if len(definition) > 2:
+            translation = definition[1]
         translation = definition[-1].text
-
         original = original[0].text
     else:
         translation = ""
         original = gkWord
 
-    # If translation isn't on Perseus, use Google Translate instead
-    if translation == "[definition unavailable]":
-        url = "https://translate.google.com/#el/en/" + gkWord
-        soup = parse(url)
-        googleDef = soup.findAll('span', attrs={'title': 'word'})
-        print(googleDef)
-        original = gkWord
-        if len(googleDef) > 0:
-            translation = googleDef[0].text
-        print(googleDef[0].text)
-
-    # Strip stray punctuation from the end of the translation
-    if len(translation) > 0 and (translation[-1] == "," or translation[-1] ==";"):
+    # Strip stray punctuation/spaces from the end of the translation
+    translation = translation.rstrip()
+    while len(translation) > 0 and (translation[-1] == "," or translation[-1] ==";"):
         translation = translation[:-1]
+
+    # If translation isn't on Perseus, use Google Translate instead
+    if translation.endswith("[definition unavailable]"):
+
+        # Call mtranslate function
+        translation = translate(gkWord)
+        print(translation)
+
+        # url = "https://translate.google.com/#el/en/" + gkWord
+        # print(url)
+        # soup = parse(url)
+        # print(soup)
+        # print()
+        # googleDef = soup.findAll('span', attrs={'idid: 'result_boxx'})
+        # print(googleDef[0].text)
+        # for span in googleDef:
+        #     container = span.findAll('span')
+        #     print(container)
+        # original = gkWord
+        # if len(container) > 0:
+        #     translation = container[0].text
+        #     print(container[0].text)
+
+
 
     # Insert data into the translations table, preventing the addition of duplicate words
     translationLine = db.execute("SELECT * FROM translations WHERE original = :gkWord", gkWord=gkWord)
