@@ -115,7 +115,7 @@ if __name__ == "__main__":
 
                 # Open the html file to add the links for each section
                 # https://stackoverflow.com/questions/10507230/insert-line-at-middle-of-file-with-python
-                html = open("/home/ubuntu/workspace/final/templates/republic.html", "r")
+                html = open(f"/home/ubuntu/workspace/final/templates/republic{BOOK}.html", "r")
                 contents = html.readlines()
                 html.close()
 

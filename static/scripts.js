@@ -34,6 +34,22 @@ $( document ).ready(function() {
         }
     });
 
+    // When the book links are hovered over with mouse, diplay book number
+    $('.book-link').hover(
+    function() {
+        $('.section-number').text("");
+        var id = $(this).attr("id");
+        $('.book-number').text(id);
+    });
+
+    // When the section links are hovered over with mouse, diplay section number
+    $('.section-link').hover(
+    function() {
+        $('.book-number').text("");
+        var href = $(this).attr("href").slice(-6, -2);
+        $('.section-number').text(href);
+    });
+
     // Add 'active' class to links depending on the current page
     var pathname = window.location.pathname
     if (pathname.length > 1)
@@ -47,6 +63,9 @@ $( document ).ready(function() {
         {
             $('#odyssey').trigger("click");
         }
+
+        $('a.book-link').removeClass("active");
+        $('.book-link[href="'+pathname+'"]').addClass("active");
 
         $('a.section-link').removeClass("active");
         $('.section-link[href="'+pathname+'"]').addClass("active");
