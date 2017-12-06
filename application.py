@@ -25,14 +25,14 @@ def index():
 
     return render_template("index.html")
 
-@app.route('/republic/book<int:book>/section<section>', methods=['GET'])
-def text(book, section):
+@app.route('/republic/book<int:book>/section<section>/<vocab>', methods=['GET'])
+def text(book, section, vocab):
 
     text = db.execute("SELECT * FROM original INNER JOIN translations ON original.translation_id=translations.translation_id WHERE section = :section", section=section)
-    # print(text[0], file=sys.stderr)
+
     for i in range(len(text)):
-        text[i] = (text[i]["greek"], text[i]["original"], text[i]["url"], text[i]["translation"])
-    return render_template("republic.html", words=text)
+        text[i] = (text[i]["greek"], text[i]["original"], text[i]["url"], text[i]["translation"], text[i]["frequency"])
+    return render_template("republic.html", words=text, vocab=vocab)
 
 # Iterate through all p elements in the relevant div.
 # Scrape all content within p elements.
@@ -83,3 +83,17 @@ def text(book, section):
 # Have an area near the navbar that says the number of the a element you're hovering over.
 
 # Make an exception for the articles, will hav to look them up, deal with them individually.
+
+# Could add div wrapper for each word to make size-responsive
+
+# Main priorities:
+# Make field that displays section number when you hover over it
+# Make navbar change color based on what page you're on XXXXXX
+# Make difficulty slider/grouped buttons with JS
+# Take care of definition unavailable
+# Add below under border-bottom element with @ Bryce McDonald, CS 50 Final Project. Thanks to Perseus Digital Library for the Greek text and online dictionary.
+# Spruce up colors
+# Fix punctuation
+# Makes exception for articles
+
+# Add attribute "frequency" to all the li elements from python file. Using jquery check on clicked button that attribute, hide any that don't meet requirement.

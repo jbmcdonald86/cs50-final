@@ -8,17 +8,18 @@
 <div class="passage-selection">
   <div class="list-group">
         <p><b>Book</b></p>
-        <a href="#" class="list-group-item list-group-item-action section-link"></a>
-        <a href="#" class="list-group-item list-group-item-action section-link"></a>
-        <a href="#" class="list-group-item list-group-item-action section-link"></a>
-        <a href="#" class="list-group-item list-group-item-action section-link"></a>
+        <a href="#" class="list-group-item list-group-item-action book-link"></a>
+        <a href="#" class="list-group-item list-group-item-action book-link"></a>
+        <a href="#" class="list-group-item list-group-item-action book-link"></a>
+        <a href="#" class="list-group-item list-group-item-action book-link"></a>
+
   </div>
   <div class="list-group">
     <p><b>Section</b></p>
-<a href="/republic/book1/section327a" class="list-group-item list-group-item-action section-link"></a>
-<a href="/republic/book1/section327b" class="list-group-item list-group-item-action section-link"></a>
-<a href="/republic/book1/section327c" class="list-group-item list-group-item-action section-link"></a>
-<a href="/republic/book1/section328a" class="list-group-item list-group-item-action section-link"></a>
+<a href="/republic/book1/section327a/{{ vocab }}" class="list-group-item list-group-item-action section-link"></a>
+<a href="/republic/book1/section327b/{{ vocab }}" class="list-group-item list-group-item-action section-link"></a>
+<a href="/republic/book1/section327c/{{ vocab }}" class="list-group-item list-group-item-action section-link"></a>
+<a href="/republic/book1/section328a/{{ vocab }}" class="list-group-item list-group-item-action section-link"></a>
 
   </div>
 </div>
@@ -30,7 +31,7 @@
         {% if words[i][0]|string() == "," or words[i][0]|string() == "." or words[i][0]|string() == ";" or words[i][0]|string() == ":" %}
           <ol><li class="punctuation">{{ words[i][0] }}</li></ol>
         {% elif words[i][0][0]|int != 0 %}
-          {{ words[i][0] }}
+          <b class="sectionNum">{{ words[i][0] }}</b>
         {% elif words[i][0]|string() == ">" %}
           <br>
         {% elif words[i][0]|string() == "|" %}
@@ -41,11 +42,9 @@
             <li class="greek">
               <a target="_blank" href="{{ words[i][2] }}" class="greek">{{ words[i][0] }}</a>
             </li>
-            <div class="second">
-            <li class="definition">
-              {{words[i][1] }}>> {{ words[i][3] }}<span></span>
+            <li frequency="{{ words[i][4] }}" class="english">
+              {{words[i][1] }}: {{ words[i][3] }}<span></span>
             </li>
-            </div>
           </ol>
         {% endif %}
       {% endfor %}
@@ -53,4 +52,13 @@
   </ol>
 </div>
 
+<div class="container sidebar">
+  <h4 class="info">Click to filter vocab</h4>
+  <div class="list-group difficulty">
+    <p><b>Vocab Difficulty:</b></p>
+    <a id="1" class="list-group-item list-group-item-action vocab-level">1</a>
+    <a id="2" class="list-group-item list-group-item-action vocab-level">2</a>
+    <a id="3" class="list-group-item list-group-item-action vocab-level">3</a>
+  </div>
+</div>
 {% endblock %}

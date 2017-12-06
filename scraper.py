@@ -9,26 +9,51 @@ from cs50 import SQL
 db = SQL("sqlite:///words.db")
 
 TEXT = "republic"
+BOOK = 1
+
+# Retrieves website data, parses it with Beautiful Soup
+def parse(URL):
+    data = requests.get(URL)
+    soup = BeautifulSoup(data.content, 'html.parser')
+    return soup
+
 
 def translation(gkWord):
     print(gkWord)
     URL = "http://www.perseus.tufts.edu/hopper/morph?l=" + gkWord + "&la=greek"
     translation = ""
-    data = requests.get(URL)
-    soup = BeautifulSoup(data.content, 'html.parser')
+    soup = parse(URL)
     definition = soup.findAll('span', attrs={'class': 'lemma_definition'})
+    original = soup.findAll('h4', attrs={'class': 'greek'})
 
-    # Check if Perseus has a translation for the word.
+    # Check if Perseus has a translation for the word, then scrape the original Greek and the translation.
     if len(definition) > 0:
         translation = definition[-1].text
+
+        # If translation ends in punctuation, remove it
+        if translation[-1] == ',' or translation[-1] == ';':
+            translation = translation[:-1]
+
+        original = original[0].text
     else:
         translation = ""
+        original = gkWord
+
+    # If translation isn't on Perseus, use Google Translate instead
+    if translation == "[definition unavailable]":
+        url = "https://translate.google.com/#el/en/" + gkWord
+        soup = parse(url)
+        googleDef = soup.findAll('span', attrs={'title': 'word'})
+        print(googleDef)
+        original = gkWord
+        if len(googleDef) > 0:
+            translation = googleDef[0].text
 
     # Insert data into the translations table, preventing the addition of duplicate words
     translationLine = db.execute("SELECT * FROM translations WHERE original = :gkWord", gkWord=gkWord)
     if len(translationLine) < 1:
-        new_line = db.execute("INSERT INTO translations (original, url, translation, frequency) VALUES (:original, :url, :translation, :frequency)",
-                            original=gkWord, url=URL, translation=translation, frequency=1)
+        db.execute("INSERT INTO translations (original, url, translation, frequency) VALUES (:original, :url, :translation, :frequency)",
+                            original=original, url=URL, translation=translation, frequency=1)
 
         translationLine = db.execute("SELECT * FROM translations WHERE translation_id= (SELECT MAX(translation_id) FROM translations)")
     else:
@@ -46,11 +71,8 @@ if __name__ == "__main__":
                 URL = "http://www.perseus.tufts.edu/hopper/xmlchunk?doc=Perseus%3Atext%3A1999.01.0167%3Abook%3D1%3Asection%3D" + str(i) + "" + str(chr(j + ord('a')))
                 print(URL)
                 print()
-                r = requests.get(URL)
-                print(r.text)
-                soup = BeautifulSoup(r.content, 'html.parser')
-                # soup = etree.parse(StringIO(r.text))
-                # context = etree.iterparse(StringIO(r.text))
+
+                soup = parse(URL)
                 div1 = soup.findAll('div1')
                 # Check if the url is a valid one
                 if len(div1) < 1:
@@ -77,7 +99,6 @@ if __name__ == "__main__":
                             element = " | " + element.text + " | "
                         elif element.name == 'bibl':
                             element = element.text + " | "
-                        print(element)
                         paragraph += element
 
                 # Separate punctuation, incl. paragraph and line breaks ("|" and ">"), from words
@@ -89,8 +110,8 @@ if __name__ == "__main__":
                 # Insert each word into the "original" table, along with its translation_id and character length
                 for word in words:
                     translation_id = translation(word)
-                    db.execute("INSERT INTO original (greek, translation_id, length, section) VALUES (:word, :translation_id, :length, :section)",
-                            word=word, translation_id=translation_id, length=len(word), section=str(i) + str(chr(j + ord('a'))))
+                    db.execute("INSERT INTO original (greek, translation_id, length, book, section) VALUES (:word, :translation_id, :length, :section, :book)",
+                            word=word, translation_id=translation_id, length=len(word), section=str(i) + str(chr(j + ord('a'))), book=BOOK)
 
                 # Open the html file to add the links for each section
                 # https://stackoverflow.com/questions/10507230/insert-line-at-middle-of-file-with-python

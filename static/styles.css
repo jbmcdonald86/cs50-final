@@ -10,6 +10,25 @@ html, body
     padding: 0;
 }
 
+.books
+{
+    text-align:center;
+    width:30%;
+    margin:auto;
+}
+
+.book-link
+{
+    border: 1px solid black;
+    float: left;
+}
+
+.book-link:last-child
+{
+    border-radius: 0px;
+
+}
+
 .section-link
 {
     border: 1px solid black;
@@ -52,22 +71,15 @@ html, body
 .wrapper
 {
     padding:3%;
-    width: 1000px;
+    width: 70%;
     float:left;
     overflow:auto;
     margin: 1em 0;
 }
 
-.greek
+.sectionNum
 {
-    font-size: 20px;
-    line-height: 300%;
-}
-
-.punctuation
-{
-    white-space:nowrap;
-    margin-left:-4px;
+    font-size:20px;
 }
 
 ol.sentence
@@ -78,21 +90,73 @@ ol.sentence
 ol.word {
  padding: .5em;
  margin-bottom: .5em;
- background: white;
  float:left;
  display: inline-block;
+ overflow:hidden;
 }
 
 ol li{
     list-style-type: none;
 }
-.definition
+
+.punctuation
 {
-    width:30px;
+    position:relative;
+    top:29px;
+    right:6px;
+    float:left;
+    display: inline-block;
+    overflow:hidden;
 }
 
-.second
+.greek
 {
-    width: 100%
-    ;
+    font-size: 20px;
+    line-height: 300%;
+    margin-bottom: -1em;
 }
+
+.english
+{
+    width:50px;
+    height: 91px;
+}
+
+.sidebar
+{
+    width:10%;
+    height:40%;
+    border:1px solid black;
+    position: fixed;
+    left:75%;
+    margin: 5%;
+}
+
+.vocab-level
+{
+    overflow: hidden;
+    display: table;
+    border: 1px solid black;
+    margin:auto;
+}
+
+.vocab-level:last-child
+{
+    border-radius: 0px;
+
+}
+
+.difficulty
+{
+    display: table-cell;
+    vertical-align: middle;
+    float:none;
+    padding:15%;
+    text-align:center;
+}
+
+.info
+{
+    text-align:center;
+}
+
