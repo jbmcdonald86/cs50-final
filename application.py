@@ -1,5 +1,4 @@
 import os
-import re
 from flask import Flask, render_template, request
 from cs50 import SQL
 
@@ -22,14 +21,15 @@ def after_request(response):
 
 @app.route('/')
 def index():
-
     return render_template("index.html")
 
 @app.route('/republic/book<book>/section<section>/<vocab>', methods=['GET'])
 def text(book, section, vocab):
 
+    # Query the words and translations to display for the specified section
     text = db.execute("SELECT * FROM original INNER JOIN translations ON original.translation_id=translations.translation_id WHERE section = :section", section=section)
 
+    # Output a tuple into the template with all the info that needs to be displayed
     for i in range(len(text)):
         text[i] = (text[i]["greek"], text[i]["original"], text[i]["url"], text[i]["translation"], text[i]["frequency"])
     return render_template(f"republic{book}.html", words=text, vocab=vocab)
@@ -72,7 +72,7 @@ def text(book, section, vocab):
 # If there is a "" or a " " in the array, label it newline.
 
 # Translations table : "CREATE TABLE 'translations' ('translation_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'original' TEXT, 'url' TEXT, 'translation' TEXT, 'frequency' INTEGER)"
-# Original table: "CREATE TABLE 'original' ('greek_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'greek' TEXT, 'translation_id' INTEGER, 'length' INTEGER, 'section' TEXT, 'book' TEXT)"
+# Original table: "CREATE TABLE 'original' ('greek_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'greek' TEXT, 'translation_id' INTEGER, 'length' INTEGER, 'book' TEXT, 'section' TEXT")
 
 # Add function to use Google Translate for Gk words that aren't in Perseus, but only if they aren't numbers/punctuation.
 
@@ -87,13 +87,12 @@ def text(book, section, vocab):
 # Could add div wrapper for each word to make size-responsive
 
 # Main priorities:
-# Make field that displays section number when you hover over it
+# Make field that displays section number when you hover over it XXX
 # Make navbar change color based on what page you're on XXXXXX
 # Make difficulty slider/grouped buttons with JS
 # Take care of definition unavailable
-# Add below under border-bottom element with @ Bryce McDonald, CS 50 Final Project. Thanks to Perseus Digital Library for the Greek text and online dictionary.
-# Spruce up colors
-# Fix punctuation
+# Add below under border-bottom element with @ Bryce McDonald, CS 50 Final Project. Thanks to Perseus Digital Library for the Greek text and online dictionary. XXX
+# Fix punctuation XXX
 # Makes exception for articles
-
-# Add attribute "frequency" to all the li elements from python file. Using jquery check on clicked button that attribute, hide any that don't meet requirement.
+# Fix sidebar position
+# Strip punctuation from end of translations

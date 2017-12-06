@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
+  <head>
 
-        <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta -->
-        <meta charset="utf-8"/>
-        <meta content="initial-scale=1, width=device-width" name="viewport"/>
+      <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta -->
+      <meta charset="utf-8"/>
+      <meta content="initial-scale=1, width=device-width" name="viewport"/>
 
-        <!-- http://getbootstrap.com/ -->
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+      <!-- http://getbootstrap.com/ -->
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
 
-        <!-- App's own CSS -->
-        <link href="/static/styles.css" rel="stylesheet"/>
+      <!-- App's own CSS -->
+      <link href="/static/styles.css" rel="stylesheet"/>
 
-        <!-- http://jquery.com/ -->
-        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+      <!-- http://jquery.com/ -->
+      <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
-        <!-- http://getbootstrap.com/ -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <!-- http://getbootstrap.com/ -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-        <!-- http://handlebarsjs.com/ -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+      <!-- http://handlebarsjs.com/ -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 
-        <!-- app's own JavaScript -->
-        <script src="/static/scripts.js"></script>
+      <!-- app's own JavaScript -->
+      <script src="/static/scripts.js"></script>
 
-        <link rel="icon" href="http://www.publicdomainpictures.net/pictures/130000/velka/omega-symbol-1438273457zCJ.jpg">
-        <title>Greek Interlinear Dictionary</title>
+      <link rel="icon" href="http://www.publicdomainpictures.net/pictures/130000/velka/omega-symbol-1438273457zCJ.jpg">
+      <title>Greek Interlinear Dictionary</title>
 
-    </head>
-    <body>
-      <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/">Greek Interlinear Dictionary</a>
-        </div>
-        <ul class="nav navbar-nav">
-          <li class="menu active"><a  href="/">Home</a></li>
-          <li id="republic" class="menu"><a href="/republic/book1/section327a/1">Plato's Republic</a></li>
-          <li id="odyssey" class="menu"><a href="#">Homer's Odyssey</a></li>
-          <li class="menu"><a href="#">Page 3</a></li>
-        </ul>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Greek Interlinear Dictionary</a>
       </div>
-    </nav>
-        {% block main %}{% endblock %}
-    </body>
+      <ul class="nav navbar-nav">
+        <li class="menu active"><a  href="/">Home</a></li>
+        <li id="republic" class="menu"><a href="/republic/book1/section327a/1">Plato's Republic</a></li>
+        <li id="odyssey" class="menu"><a href="#">Homer's Odyssey</a></li>
+        <li class="menu"><a href="#">Page 3</a></li>
+      </ul>
+    </div>
+  </nav>
+      {% block main %}{% endblock %}
+  </body>
 </html>

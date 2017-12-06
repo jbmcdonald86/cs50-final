@@ -122,10 +122,16 @@ ol li{
     height: 91px;
 }
 
+#page-wrap {
+  width: 600px;
+  margin: 15px auto;
+  position: relative;
+}
+
 .sidebar
 {
-    width:10%;
-    height:40%;
+    width:130px;
+    height:300px;
     border:1px solid black;
     position: fixed;
     left:75%;
@@ -134,7 +140,6 @@ ol li{
 
 .vocab-level
 {
-    overflow: hidden;
     display: table;
     border: 1px solid black;
     margin:auto;
@@ -160,3 +165,20 @@ ol li{
     text-align:center;
 }
 
+p.info
+{
+    position:relative;
+}
+
+footer
+{
+    position: relative;
+    margin-top: -150px; /* negative value of footer height */
+    height: 75px;
+    clear:both;
+    padding-top:20px;
+    margin-left:10%;
+    margin-right:10%;
+    text-align:center;
+    border-top: 1px solid black;
+}
