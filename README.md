@@ -23,7 +23,7 @@ SETUP
 
 6. Copy and paste into a new web browser tab the url that flask gives you shortly after you enter the flask run command, which should be on the same line as "* Running on [url] (Press CTRL+C to quit)".
 
-7. To open up the database file "words.db" enter the terminal command ~/workspace/final $ phpliteadmin words.db
+7. To open up the database file "words.db" enter the terminal command ~/workspace/final $ phpliteadmin words.db and open up the resulting url in a new browser tab.
 
 USAGE
 
