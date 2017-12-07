@@ -54,7 +54,7 @@ def unescape(text):
         parser = HTMLParser.HTMLParser()
     else:
         parser = html.parser.HTMLParser()
-    return (parser.unescape(text))
+    return (parser.html.unescape(text))
 
 
 def translate(to_translate, to_language="auto", from_language="auto"):
@@ -84,5 +84,5 @@ def translate(to_translate, to_language="auto", from_language="auto"):
     if (len(re_result) == 0):
         result = ""
     else:
-        result = unescape(re_result[0])
+        result = html.unescape(re_result[0])
     return (result)

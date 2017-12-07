@@ -74,7 +74,8 @@ html, body
     width: 70%;
     float:left;
     overflow:auto;
-    margin: 1em 0;
+    margin-top: 1em;
+    margin-bottom: 7em;
 }
 
 .sectionNum
@@ -92,7 +93,8 @@ ol.word {
  margin-bottom: .5em;
  float:left;
  display: inline-block;
- overflow:hidden;
+ overflow: hidden;
+ min-height: 50px;
 }
 
 ol li{
@@ -122,20 +124,20 @@ ol li{
     height: 91px;
 }
 
-#page-wrap {
-  width: 600px;
-  margin: 15px auto;
-  position: relative;
-}
-
 .sidebar
 {
     width:130px;
     height:300px;
     border:1px solid black;
-    position: fixed;
+    position:fixed;
     left:75%;
-    margin: 5%;
+    top:45%;
+}
+
+@media screen and (max-width: 767px) {
+    .sidebar {
+        display: none !important;
+    }
 }
 
 .vocab-level
@@ -173,7 +175,6 @@ p.info
 footer
 {
     position: relative;
-    margin-top: -150px; /* negative value of footer height */
     height: 75px;
     clear:both;
     padding-top:20px;

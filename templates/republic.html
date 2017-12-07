@@ -13,11 +13,12 @@
         <a id="3" href="#" class="list-group-item list-group-item-action book-link"></a>
         <a id="4" href="#" class="list-group-item list-group-item-action book-link"></a>
         <a id="5" href="#" class="list-group-item list-group-item-action book-link"></a>
-        <a id="6" href="#" class="list-group-item list-group-item-action book-link"></a>
-        <a id="7" href="#" class="list-group-item list-group-item-action book-link"></a>
-        <a id="8" href="#" class="list-group-item list-group-item-action book-link"></a>
-        <a id="9" href="#" class="list-group-item list-group-item-action book-link"></a>
-        <a id="10" href="#" class="list-group-item list-group-item-action book-link"></a>
+        <a id="6" href="/republic/book6/section484a/{{ vocab }}" class="list-group-item list-group-item-action book-link"></a>
+        <a id="7" href="/republic/book7/section514a/{{ vocab }}" class="list-group-item list-group-item-action book-link"></a>
+        <a id="8" href="/republic/book8/section543a/{{ vocab }}" class="list-group-item list-group-item-action book-link"></a>
+        <a id="9" href="/republic/book9/section571a/{{ vocab }}" class="list-group-item list-group-item-action book-link"></a>
+        <a id="0" href="/republic/book0/section595a/{{ vocab }}" class="list-group-item list-group-item-action book-link"></a>
+
   </div>
   <div class="list-group">
     <p><b>Section: </b><span class="section-number"></span></p>
@@ -46,8 +47,8 @@
             <li class="greek">
               <a target="_blank" href="{{ words[i][2] }}" class="greek">{{ words[i][0] }}{% if words[i + 1][0]|string() == "," or words[i + 1][0]|string() == "." or words[i + 1][0]|string() == ";" or words[i + 1][0]|string() == ":" %}{{ words[i + 1][0] }}{% endif %}</a>
             </li>
-            <li frequency="{{ words[i][4] }}" class="english">
-<a href="/republic/book1/section327a" class="list-group-item list-group-item-action section-link"></a>
+            <li id="frequency{{ words[i][4] }}" class="english">
+<a href="/republic/book1/section352d" class="list-group-item list-group-item-action section-link"></a>
               {{words[i][1] }}: {{ words[i][3] }}<span></span>
             </li>
           </ol>
@@ -59,17 +60,17 @@
 
 <div id="page-wrap">
   <div class="sidebar">
-  <h4 class="info">Click to filter vocab</h4>
-  <div class="list-group difficulty">
-    <p class="info"><b>Vocab Difficulty:</b></p>
-    <a id="1" class="list-group-item list-group-item-action vocab-level">1</a>
-    <a id="2" class="list-group-item list-group-item-action vocab-level">2</a>
-    <a id="3" class="list-group-item list-group-item-action vocab-level">3</a>
+    <h4 class="info">Click to filter vocab</h4>
+    <div class="list-group difficulty">
+      <p class="info"><b>Vocab Difficulty:</b></p>
+      <a id="vocab1" class="list-group-item list-group-item-action vocab-level">1</a>
+      <a id="vocab2" class="list-group-item list-group-item-action vocab-level">2</a>
+      <a id="vocab3" class="list-group-item list-group-item-action vocab-level">3</a>
+    </div>
   </div>
-</div>
 </div>
 
 <footer>
-    <p>@ Bryce McDonald, CS 50 Final Project. Thanks to Perseus Digital Library for the Greek text and online dictionary.</p>
+  <p>@ Bryce McDonald, CS 50 Final Project. Thanks to Perseus Digital Library for the Greek text and online dictionary.</p>
 </footer>
 {% endblock %}
